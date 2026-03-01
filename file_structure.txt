@@ -1,0 +1,80 @@
+mindlearn-ai/
+│
+├── README.md
+├── requirements.txt
+├── .env
+│
+├── dataset/
+│   ├── raw/
+│   │   ├── academic_data.csv
+│   │   └── burnout_data.csv
+│   │
+│   └── processed/
+│       ├── academic_features.csv
+│       └── burnout_features.csv
+│
+├── models/
+│   ├── weakness_model.pkl
+│   ├── burnout_model.pkl
+│   └── scaler.pkl
+│
+├── ml/
+│   ├── data_preprocessing.py
+│   ├── feature_engineering.py
+│   ├── train_weakness.py
+│   ├── train_burnout.py
+│   ├── evaluate.py
+│   └── predict.py
+│
+├── backend/
+│   ├── main.py
+│   ├── config.py
+│   │
+│   ├── routes/
+│   │   ├── auth_routes.py
+│   │   ├── student_routes.py
+│   │   ├── prediction_routes.py
+│   │   └── analytics_routes.py
+│   │
+│   ├── services/
+│   │   ├── weakness_service.py
+│   │   ├── burnout_service.py
+│   │   ├── recommendation_service.py
+│   │   └── scoring_service.py
+│   │
+│   ├── database/
+│   │   ├── db.py
+│   │   ├── models.py
+│   │   └── schemas.py
+│   │
+│   └── utils/
+│       ├── helpers.py
+│       └── validators.py
+│
+├── frontend/
+│   ├── public/
+│   │   └── index.html
+│   │
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── Dashboard.jsx
+│   │   │   ├── QuestionPage.jsx
+│   │   │   ├── PredictionCard.jsx
+│   │   │   └── ProgressChart.jsx
+│   │   │
+│   │   ├── pages/
+│   │   │   ├── Login.jsx
+│   │   │   ├── Signup.jsx
+│   │   │   └── Home.jsx
+│   │   │
+│   │   ├── services/
+│   │   │   └── api.js
+│   │   │
+│   │   └── App.jsx
+│   │
+│   └── package.json
+│
+└── deployment/
+    ├── Dockerfile
+    ├── docker-compose.yml
+    └── aws_config.md
