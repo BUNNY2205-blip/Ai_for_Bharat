@@ -5,11 +5,22 @@ from __future__ import annotations
 from contextlib import asynccontextmanager
 from pathlib import Path
 
-from fastapi import FastAPI
+from fastapi import APIRouter, FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
+from backend.core.config import (
+    CORS_ALLOW_CREDENTIALS,
+    CORS_ALLOW_HEADERS,
+    CORS_ALLOW_METHODS,
+    CORS_ALLOW_ORIGINS,
+    configure_logging,
+)
+from backend.routes.analysis_routes import router as analysis_router
 from backend.routes.prediction_routes import router as prediction_router
 from backend.schemas.prediction_schema import HealthResponse
 from backend.services.ai_service import AIService
+
+configure_logging()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 MODEL_DIR = BASE_DIR / "model"
@@ -34,7 +45,17 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-app.include_router(prediction_router)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=CORS_ALLOW_ORIGINS,
+    allow_credentials=CORS_ALLOW_CREDENTIALS,
+    allow_methods=CORS_ALLOW_METHODS,
+    allow_headers=CORS_ALLOW_HEADERS,
+)
+
+api_router = APIRouter(prefix="/api/v1")
+api_router.include_router(prediction_router)
+api_router.include_router(analysis_router)
 
 
 @app.get("/", tags=["health"])
@@ -42,12 +63,16 @@ def root() -> dict[str, str]:
     """Root endpoint with quick API navigation hints."""
     return {
         "message": "MindLearn AI Backend is running",
-        "health": "/health",
+        "health": "/api/v1/health",
+        "api_base": "/api/v1",
         "docs": "/docs",
     }
 
 
-@app.get("/health", response_model=HealthResponse, tags=["health"])
+@api_router.get("/health", response_model=HealthResponse, tags=["health"])
 def health_check() -> HealthResponse:
     """Health endpoint for uptime checks."""
     return HealthResponse(status="running")
+
+
+app.include_router(api_router)
