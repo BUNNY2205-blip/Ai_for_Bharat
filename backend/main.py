@@ -37,6 +37,16 @@ app = FastAPI(
 app.include_router(prediction_router)
 
 
+@app.get("/", tags=["health"])
+def root() -> dict[str, str]:
+    """Root endpoint with quick API navigation hints."""
+    return {
+        "message": "MindLearn AI Backend is running",
+        "health": "/health",
+        "docs": "/docs",
+    }
+
+
 @app.get("/health", response_model=HealthResponse, tags=["health"])
 def health_check() -> HealthResponse:
     """Health endpoint for uptime checks."""
