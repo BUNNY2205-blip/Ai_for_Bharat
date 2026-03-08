@@ -1,12 +1,12 @@
 const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || "http://44.200.74.235:8000").replace(/\/$/, "");
 
 /**
- * Call MindLearn unified analysis endpoint.
+ * Call concept weakness endpoint.
  * @param {Object} payload
  * @returns {Promise<Object>}
  */
 export async function analyzeStudent(payload) {
-  const response = await fetch(`${API_BASE_URL}/api/v1/predict/analysis`, {
+  const response = await fetch(`${API_BASE_URL}/predict/weakness`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

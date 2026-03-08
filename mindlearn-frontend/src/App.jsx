@@ -3,6 +3,23 @@ import InputForm from "./components/InputForm";
 import ResultDashboard from "./components/ResultDashboard";
 import { analyzeStudent } from "./services/api";
 
+function normalizeWeaknessResponse(response) {
+  return {
+    concept_level: response?.concept_level ?? "Weak",
+    concept_confidence: response?.concept_confidence ?? 100,
+    burnout_risk: response?.burnout_risk ?? "N/A",
+    burnout_confidence: response?.burnout_confidence ?? 0,
+    readiness_score: response?.readiness_score ?? 0,
+    readiness_band: response?.readiness_band ?? "N/A",
+    risk_reasoning: response?.risk_reasoning ?? [],
+    recommendations: response?.recommendations ?? {
+      study_plan: [],
+      focus_area: "Only concept weakness is available from this endpoint.",
+      rest_advice: "Use /predict/burnout for burnout-specific guidance.",
+    },
+  };
+}
+
 export default function App() {
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -14,7 +31,7 @@ export default function App() {
 
     try {
       const response = await analyzeStudent(payload);
-      setResult(response);
+      setResult(normalizeWeaknessResponse(response));
     } catch (err) {
       setResult(null);
       setError(err.message || "Failed to analyze student");
