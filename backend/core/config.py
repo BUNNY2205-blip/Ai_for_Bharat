@@ -10,7 +10,10 @@ LOG_FORMAT = "%(asctime)s | %(levelname)s | %(name)s | %(message)s"
 
 DEFAULT_CORS_ORIGINS = (
     "http://aiforbharat-frontend.s3-website-us-east-1.amazonaws.com,"
-    "http://localhost:5173"
+    "http://localhost:5173,"
+    "http://localhost:5174,"
+    "http://127.0.0.1:5173,"
+    "http://127.0.0.1:5174"
 )
 
 CORS_ALLOW_ORIGINS = [
@@ -18,9 +21,9 @@ CORS_ALLOW_ORIGINS = [
     for origin in os.getenv("CORS_ALLOW_ORIGINS", DEFAULT_CORS_ORIGINS).split(",")
     if origin.strip()
 ]
-CORS_ALLOW_CREDENTIALS = os.getenv("CORS_ALLOW_CREDENTIALS", "false").lower() == "true"
-CORS_ALLOW_METHODS = ["GET", "POST", "OPTIONS"]
-CORS_ALLOW_HEADERS = ["Authorization", "Content-Type"]
+CORS_ALLOW_CREDENTIALS = False
+CORS_ALLOW_METHODS = ["*"]
+CORS_ALLOW_HEADERS = ["*"]
 
 
 def configure_logging() -> None:

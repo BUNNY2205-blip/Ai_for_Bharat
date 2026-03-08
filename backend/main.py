@@ -22,8 +22,8 @@ from backend.services.ai_service import AIService
 
 configure_logging()
 
-BASE_DIR = Path(__file__).resolve().parent.parent
-MODEL_DIR = BASE_DIR / "model"
+BASE_DIR = Path(__file__).resolve().parent.parent.parent  # Go up to /home/bunny/Documents/Ai_for_bharat
+MODEL_DIR = BASE_DIR / "models"
 
 ai_service = AIService(
     weakness_model_path=MODEL_DIR / "weakness_model.pkl",
