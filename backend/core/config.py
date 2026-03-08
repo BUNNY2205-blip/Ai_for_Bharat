@@ -3,14 +3,24 @@
 from __future__ import annotations
 
 import logging
+import os
 
 LOG_LEVEL = logging.INFO
 LOG_FORMAT = "%(asctime)s | %(levelname)s | %(name)s | %(message)s"
 
-CORS_ALLOW_ORIGINS = ["*"]
-CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOW_METHODS = ["*"]
-CORS_ALLOW_HEADERS = ["*"]
+DEFAULT_CORS_ORIGINS = (
+    "http://aiforbharat-frontend.s3-website-us-east-1.amazonaws.com,"
+    "http://localhost:5173"
+)
+
+CORS_ALLOW_ORIGINS = [
+    origin.strip()
+    for origin in os.getenv("CORS_ALLOW_ORIGINS", DEFAULT_CORS_ORIGINS).split(",")
+    if origin.strip()
+]
+CORS_ALLOW_CREDENTIALS = os.getenv("CORS_ALLOW_CREDENTIALS", "false").lower() == "true"
+CORS_ALLOW_METHODS = ["GET", "POST", "OPTIONS"]
+CORS_ALLOW_HEADERS = ["Authorization", "Content-Type"]
 
 
 def configure_logging() -> None:
